@@ -1,0 +1,78 @@
+using System;
+
+class Program
+{
+    static void Main()
+    {
+        int nissu = Convert.ToInt32(Console.ReadLine());
+        int[] day = new int[nissu];
+        int i = 0;
+        int dat_count = 0;
+        string hiniti ="";
+        int black_count = 0;
+        
+        
+        var line = Console.ReadLine().Split(' ');
+        foreach (string day_before in line)
+        {
+            day[i] = Convert.ToInt32(day_before);
+            i ++;
+        }
+        
+        i --;
+        
+        for (int n = 0;n <i+1;n++)
+        {
+            //最初に週休二日になる場所を見つける。
+                hiniti = hiniti+day[n].ToString();
+                if (hiniti.Length == 7)
+                {
+                    if (count_kyujitu(hiniti,'0')==2)
+                    {
+                        //最初の週休二日のため、ここから開始
+                        dat_count =7;   //7日を代入
+                        break;
+                    }
+                    //違う場合は、一日ずつずらしていく
+                    else
+                    {
+                        hiniti = hiniti.Substring(1,6);
+                    }
+                }
+            black_count ++;    
+        }
+        
+        if (black_count !=i)
+        {
+            black_count ++;   //翌日にずらす
+            
+            for (int m = black_count;m<i+1;m++)
+            {
+                hiniti = hiniti.Substring(1,6);
+                
+                hiniti = hiniti+day[m].ToString();
+                
+                
+                if (count_kyujitu(hiniti,'0')==2)
+                    {
+                        //週休二日のため、1を増やす
+                        dat_count ++;
+                    }
+                else
+                {
+                    //違った場合は抜ける
+                    break;
+                }
+                
+            }    
+        }
+        Console.WriteLine(dat_count);
+    }
+    
+    public static int count_kyujitu(string s,char c) 
+    {
+        return s.Length -s.Replace(c.ToString(),"").Length;
+    }
+    
+    
+}
